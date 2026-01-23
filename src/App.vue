@@ -22,15 +22,16 @@ onMounted(() => {
     <nav>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/settings">Settings</RouterLink>
+      <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
     </nav>
     <Header />
   </header>
 
   <main>
-<!--    <router-view  />-->
+    <router-view  />
 
-    <Chat />
-    <testView />
+<!--    <Chat />-->
+<!--    <testView />-->
 
   </main>
 

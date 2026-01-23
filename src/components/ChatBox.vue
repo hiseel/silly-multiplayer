@@ -2,9 +2,8 @@
 import {onMounted, ref, watch} from "vue";
 import axios from "axios";
 
-const props = defineProps([ 'roomid' ]);
-// defineEmits(['update:ActiveRoomID']);
-const result = defineModel();
+const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
+// const result = defineModel('ActiveRoomID');
 
 const messages = ref([])
 const getMessageData = async () => {
@@ -19,9 +18,8 @@ const getMessageData = async () => {
 }
 onMounted(() => getMessageData())
 
-result.value = messages
 
-watch(() => props.roomid, () => getMessageData());
+watch(() => props.roomID, getMessageData);
 
 
 </script>
@@ -29,7 +27,7 @@ watch(() => props.roomid, () => getMessageData());
 <template>
   <div class="chat-container">
     <div class="message-list h-screen">
-      <div v-for="value in messages">
+      <div v-for="value in message">
         <div> {{ value.user_id }} </div>
         <p> {{ value.message }} </p>
       </div>

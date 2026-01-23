@@ -35,7 +35,14 @@ const router = createRouter({
         {
             path: '/room/:roomId',
             name: 'room',
-            component: testView
+            component: testView,
+            props: true
+        },
+        {
+            path: '/room',
+            name: 'rooms',
+            component: testView,
+            props: true
         }
     ]
 })
