@@ -6,14 +6,6 @@ const props = defineProps([ 'roomid' ]);
 // defineEmits(['update:ActiveRoomID']);
 const result = defineModel();
 
-// async function loadData() {
-//   if (!props.roomid) return;
-//   const payload = {
-//     roomid: props.room_id
-//   }
-// }
-
-
 const messages = ref([])
 const getMessageData = async () => {
   try {

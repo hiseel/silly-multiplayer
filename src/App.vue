@@ -9,6 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 import {onMounted} from "vue";
 import testView from "@/views/testView.vue";
+import RoomView from "@/views/roomView.vue";
 
 onMounted(() => {
   // Force the theme on mount
@@ -26,10 +27,10 @@ onMounted(() => {
   </header>
 
   <main>
-    <router-view  />
+<!--    <router-view  />-->
 
     <Chat />
-    <test />
+    <testView />
 
   </main>
 

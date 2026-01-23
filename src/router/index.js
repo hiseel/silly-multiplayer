@@ -6,9 +6,9 @@ import AboutView from '../views/AboutView.vue'
 import SettingsView from "@/views/SettingsView.vue";
 import AccountView from "@/views/AccountView.vue";
 import testView from "@/views/testView.vue";
+import roomView from "@/views/roomView.vue";
 
 const router = createRouter({
-    // createWebHistory allows for normal URLs (e.g. example.com/about)
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
@@ -33,7 +33,7 @@ const router = createRouter({
             ]
         },
         {
-            path: '/room/:roomID',
+            path: '/room/:roomId',
             name: 'room',
             component: testView
         }
