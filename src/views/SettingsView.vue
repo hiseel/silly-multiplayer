@@ -4,7 +4,7 @@
 
 <template>
   <header>
-    <RouterLink to="/account">acc</RouterLink>
+    <RouterLink to="/settings/account">acc</RouterLink>
   </header>
   <main>
     <router-view />

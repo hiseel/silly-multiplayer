@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import SettingsView from "@/views/SettingsView.vue";
 import AccountView from "@/views/AccountView.vue";
+import testView from "@/views/testView.vue";
 
 const router = createRouter({
     // createWebHistory allows for normal URLs (e.g. example.com/about)
@@ -22,17 +23,19 @@ const router = createRouter({
         },
         {
             path: '/settings',
+            name: 'settings',
             component: SettingsView, // This component must have its own <RouterView> inside!
             children: [
-                {
-                    path: 'profile',
-                    component: 'null'
-                },
                 {
                     path: 'account',
                     component: AccountView
                 }
             ]
+        },
+        {
+            path: '/room/:roomID',
+            name: 'room',
+            component: testView
         }
     ]
 })

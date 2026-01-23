@@ -8,18 +8,17 @@ import DBLoader from "@/components/DBLoader.vue";
 import { RouterLink, RouterView } from 'vue-router'
 
 import {onMounted} from "vue";
+import testView from "@/views/testView.vue";
 
 onMounted(() => {
   // Force the theme on mount
-  document.documentElement.setAttribute('data-theme', 'my-forest')
+  document.documentElement.setAttribute('data-theme', 'luxury')
 })
 </script>
 
 <template>
   <header>
     <nav>
-      <!-- Use 'to' instead of 'href' -->
-      <RouterLink to="/">Home</RouterLink> |
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/settings">Settings</RouterLink>
     </nav>
@@ -28,10 +27,12 @@ onMounted(() => {
 
   <main>
     <router-view  />
+
     <Chat />
     <test />
 
   </main>
+
 </template>
 
 <style scoped>

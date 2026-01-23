@@ -2,9 +2,13 @@
 @import "tailwindcss";
 @tailwind utilities;
 @plugin "daisyui" {
-  themes: my-forest --default, light, dark;
+  themes: luxury --default, light, dark;
 }
 
+@plugin "daisyui/theme" {
+  name: luxury;
+  --color-base-200: oklch(0.147 0.011 159.754);
+}
 
 @plugin "daisyui/theme" {
   name: my-forest;
@@ -38,8 +42,8 @@
 }
 
 #app {
-
-  margin: 0 auto;
+  /*max-height: 100vh;*/
+  margin: 1%;
   padding: 2rem;
   font-weight: normal;
 }
@@ -47,7 +51,7 @@
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 45%, 1);
+  color: hsl(87, 100%, 45%);
   transition: 0.4s;
   padding: 3px;
 }
@@ -58,7 +62,7 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 100fr) {
   body {
     display: flex;
     place-items: self-start;

@@ -59,113 +59,113 @@ const columns = ref([]);
 
 </template>
 
-<style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #eee;
-    }
+<!--<style>-->
+<!--    body {-->
+<!--      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--      padding: 20px;-->
+<!--      background: #1a1a1a;-->
+<!--      color: #eee;-->
+<!--    }-->
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+<!--    .container {-->
+<!--      max-width: 1200px;-->
+<!--      margin: 0 auto;-->
+<!--    }-->
 
-    h1 {
-      color: #4CCAFF;
-    }
+<!--    h1 {-->
+<!--      color: #4CCAFF;-->
+<!--    }-->
 
-    /* Controls */
-    .controls {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #2d2d2d;
-      border-radius: 8px;
-    }
+<!--    /* Controls */-->
+<!--    .controls {-->
+<!--      margin-bottom: 20px;-->
+<!--      padding: 15px;-->
+<!--      background: #2d2d2d;-->
+<!--      border-radius: 8px;-->
+<!--    }-->
 
-    select,
-    input,
-    button {
-      padding: 8px 12px;
-      margin-right: 10px;
-      border-radius: 4px;
-      border: 1px solid #444;
-      background: #333;
-      color: white;
-    }
+<!--    select,-->
+<!--    input,-->
+<!--    button {-->
+<!--      padding: 8px 12px;-->
+<!--      margin-right: 10px;-->
+<!--      border-radius: 4px;-->
+<!--      border: 1px solid #444;-->
+<!--      background: #333;-->
+<!--      color: white;-->
+<!--    }-->
 
-    button {
-      cursor: pointer;
-      background: #4CCAFF;
-      color: #000;
-      font-weight: bold;
-      border: none;
-    }
+<!--    button {-->
+<!--      cursor: pointer;-->
+<!--      background: #4CCAFF;-->
+<!--      color: #000;-->
+<!--      font-weight: bold;-->
+<!--      border: none;-->
+<!--    }-->
 
-    button:hover {
-      background: #7cd5ff;
-    }
+<!--    button:hover {-->
+<!--      background: #7cd5ff;-->
+<!--    }-->
 
-    /* Table Styles */
-    .table-wrapper {
-      overflow-x: auto;
-      background: #2d2d2d;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
+<!--    /* Table Styles */-->
+<!--    .table-wrapper {-->
+<!--      overflow-x: auto;-->
+<!--      background: #2d2d2d;-->
+<!--      border-radius: 8px;-->
+<!--      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);-->
+<!--    }-->
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 800px;
-    }
+<!--    table {-->
+<!--      width: 100%;-->
+<!--      border-collapse: collapse;-->
+<!--      min-width: 800px;-->
+<!--    }-->
 
-    th,
-    td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #444;
-    }
+<!--    th,-->
+<!--    td {-->
+<!--      padding: 12px 15px;-->
+<!--      text-align: left;-->
+<!--      border-bottom: 1px solid #444;-->
+<!--    }-->
 
-    th {
-      background-color: #333;
-      color: #4CCAFF;
-      position: sticky;
-      top: 0;
-      font-weight: 600;
-      white-space: nowrap;
-    }
+<!--    th {-->
+<!--      background-color: #333;-->
+<!--      color: #4CCAFF;-->
+<!--      position: sticky;-->
+<!--      top: 0;-->
+<!--      font-weight: 600;-->
+<!--      white-space: nowrap;-->
+<!--    }-->
 
-    tr:hover {
-      background-color: #383838;
-    }
+<!--    tr:hover {-->
+<!--      background-color: #383838;-->
+<!--    }-->
 
-    .loading {
-      color: #888;
-      font-style: italic;
-      margin: 20px 0;
-    }
+<!--    .loading {-->
+<!--      color: #888;-->
+<!--      font-style: italic;-->
+<!--      margin: 20px 0;-->
+<!--    }-->
 
-    .error {
-      color: #FF5C5C;
-      background: #3d1a1a;
-      padding: 10px;
-      border-radius: 4px;
-      border-left: 4px solid #FF5C5C;
-    }
+<!--    .error {-->
+<!--      color: #FF5C5C;-->
+<!--      background: #3d1a1a;-->
+<!--      padding: 10px;-->
+<!--      border-radius: 4px;-->
+<!--      border-left: 4px solid #FF5C5C;-->
+<!--    }-->
 
-    .no-data {
-      padding: 20px;
-      color: #888;
-      text-align: center;
-    }
+<!--    .no-data {-->
+<!--      padding: 20px;-->
+<!--      color: #888;-->
+<!--      text-align: center;-->
+<!--    }-->
 
-    pre {
-      white-space: pre-wrap;
-      word-break: break-all;
-      margin: 0;
-      font-family: monospace;
-      font-size: 0.9em;
-    }
-  </style>
+<!--    pre {-->
+<!--      white-space: pre-wrap;-->
+<!--      word-break: break-all;-->
+<!--      margin: 0;-->
+<!--      font-family: monospace;-->
+<!--      font-size: 0.9em;-->
+<!--    }-->
+<!--  </style>-->

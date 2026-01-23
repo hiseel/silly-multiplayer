@@ -46,12 +46,12 @@ onMounted(() => getData())
     <pre style="background: var(--color-base-300); padding: 15px;">{{ JSON.stringify(DBResults, null, 2) }}</pre>
   </div>
 
-  <div style="display:block">
-    <div v-for="value in messages">
-      <div> {{ value.username }} </div>
-      <p> {{ value.message }} </p>
-    </div>
-  </div>
+<!--  <div style="display:block">-->
+<!--    <div v-for="value in messages">-->
+<!--      <div> {{ value.username }} </div>-->
+<!--      <p> {{ value.message }} </p>-->
+<!--    </div>-->
+<!--  </div>-->
   <button @click="count++">You clicked me {{ count }} times.</button>
 </template>
 
