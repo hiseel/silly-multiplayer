@@ -3,6 +3,9 @@
 import axios from 'axios'
 import {onMounted, ref} from 'vue'
 
+const count = ref(0)
+
+
 const searchId = ref('')
 const DBResults = ref(null)
 
@@ -49,6 +52,7 @@ onMounted(() => getData())
       <p> {{ value.message }} </p>
     </div>
   </div>
+  <button @click="count++">You clicked me {{ count }} times.</button>
 </template>
 
 <style scoped>
