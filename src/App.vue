@@ -3,34 +3,27 @@ import HelloWorld from './components/HelloWorld.vue'
 import MoreDb from './components/MoreDB.vue'
 import Test from "@/components/test.vue"
 import Chat from "@/components/Chat.vue";
-import Header from "@/components/Header.vue";
+import DrawerMenu from "@/components/drawerMenu.vue";
 import DBLoader from "@/components/DBLoader.vue";
 import { RouterLink, RouterView } from 'vue-router'
 
 import {onMounted} from "vue";
 import testView from "@/views/testView.vue";
 import RoomView from "@/views/roomView.vue";
+import myheader from "@/components/myheader.vue";
 
 onMounted(() => {
-  // Force the theme on mount
   document.documentElement.setAttribute('data-theme', 'luxury')
 })
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/settings">Settings</RouterLink>
-      <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
-    </nav>
-    <Header />
-  </header>
+  <myheader />
+  <Chat />
 
   <main>
     <router-view  />
 
-<!--    <Chat />-->
 <!--    <testView />-->
 
   </main>

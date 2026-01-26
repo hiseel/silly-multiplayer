@@ -35,7 +35,6 @@ const getMessageData = async () => {
 }
 onMounted(() => getMessageData())
 
-// const is_correct = computed(() =>  rooms?.room_id === ActiveRoomID.value)
 const activeRoomID = computed(() => route.params.roomId)
 
 const filter = computed(() => {
@@ -44,6 +43,24 @@ const filter = computed(() => {
     message: sentmessages.value.filter(message => message.room_id === activeRoomID.value).toSorted((a, b) => dayjs(a.timestamp) - dayjs(b.timestamp)),
   }
 })
+
+const currentInput = ref(null)
+
+const sendMessage = async (event) => {
+  if (!event || !event.shiftKey) {
+    try {
+      const postResponse = await axios.post(`/api/db/userchats`, {message: currentInput.value})
+      console.log(postResponse.data)
+    }
+    catch (err) {
+      console.error(err)
+    }
+
+    event?.preventDefault()
+    currentInput.value = null
+  }
+}
+
 
 </script>
 
@@ -57,7 +74,7 @@ const filter = computed(() => {
           <h2 class="card-title">Rooms</h2>
           <ul class="menu  w-full">
             <RouterLink :to="{ name: 'room', params: {roomId: id.room_id}}" v-for="id in rooms" >
-              <li><a> {{id.room_id }} </a></li>
+              <li><a> {{ id.name }} </a></li>
             </RouterLink>
           </ul>
         </div>
@@ -68,15 +85,22 @@ const filter = computed(() => {
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">
-          <h2>Chat Chat! {{ rooms.room_id }} </h2>
+          <h2>Chat Chat! {{ rooms.name }} </h2>
           <ChatBox v-if="activeRoomID"
                    :roomID="activeRoomID"
                    :message="filter.message"
           />
-          <div class="flex flex-col w-full py-10">
-                <textarea class="textarea w-full "
-                          placeholder="Type here"
-                />
+          <div>
+            <div class="flex flex-row w-full py-10">
+                  <textarea class="textarea w-full "
+                            placeholder="Type here"
+                            v-model="currentInput"
+                            @keydown.enter="sendMessage"
+                  />
+                  <button class="btn"
+                  @click="sendMessage()"
+                  >Send</button>
+            </div>
           </div>
         </div>
       </div>

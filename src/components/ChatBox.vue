@@ -26,7 +26,7 @@ watch(() => props.roomID, getMessageData);
 
 <template>
   <div class="chat-container">
-    <div class="message-list h-screen">
+    <div class="message-list">
       <div v-for="value in message">
         <div> {{ value.user_id }} </div>
         <p> {{ value.message }} </p>
@@ -37,8 +37,8 @@ watch(() => props.roomID, getMessageData);
 
 <style scoped>
 .chat-container {
-  height: 100%;
-  max-height: 100%;
+  min-height: 50vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
