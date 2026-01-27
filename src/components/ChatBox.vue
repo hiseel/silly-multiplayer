@@ -8,7 +8,7 @@ const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
 const messages = ref([])
 const getMessageData = async () => {
   try {
-    const res = await axios.get(`/api/db/userchats`)
+    const res = await axios.get(`/api/userchats`)
     messages.value = res.data
   }
   catch (err) {

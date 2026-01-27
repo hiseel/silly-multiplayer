@@ -12,7 +12,7 @@ const route = useRoute();
 const rooms = ref([])
 const getData = async () => {
   try {
-    const result = await axios.get(`/api/db/rooms`)
+    const result = await axios.get(`/api/rooms`)
     rooms.value = result.data
   }
   catch (err) {
@@ -25,7 +25,7 @@ onMounted(() => getData())
 const sentmessages = ref([])
 const getMessageData = async () => {
   try {
-    const res = await axios.get(`/api/db/userchats`)
+    const res = await axios.get(`/api/userchats`)
     sentmessages.value = res.data
   }
   catch (err) {
@@ -49,7 +49,7 @@ const currentInput = ref(null)
 const sendMessage = async (event) => {
   if (!event || !event.shiftKey) {
     try {
-      const postResponse = await axios.post(`/api/db/userchats`, {message: currentInput.value})
+      const postResponse = await axios.post(`/api/userchats`, {message: currentInput.value})
       console.log(postResponse.data)
     }
     catch (err) {

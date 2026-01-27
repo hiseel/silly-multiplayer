@@ -12,7 +12,7 @@ const test = ref(null)
 const fetchData = async () => {
   loading.value = true
   try {
-    const response = await axios.get('/api/db/users')
+    const response = await axios.get('/api/users')
 
     items.value = response.data
 
@@ -33,7 +33,7 @@ onMounted(() => {
 onMounted(async () => {
   try {
     // 2. Fetch the data (Using your proxy path from the previous step)
-    const response = await axios.get('/api/db/users')
+    const response = await axios.get('/api/users')
 
     // 3. Store the data
     rawData.value = response.data

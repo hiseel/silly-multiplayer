@@ -8,7 +8,7 @@ import axios from "axios";
 const roomID = ref([])
 const getData = async () => {
   try {
-    const res = await axios.get(`/api/db/rooms`)
+    const res = await axios.get(`/api/rooms`)
     roomID.value = res.data
   }
   catch (err) {

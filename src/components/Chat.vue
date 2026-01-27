@@ -13,7 +13,7 @@ const search = async () => {
   if (!searchId.value) return
 
   try {
-    const res = await axios.get(`/api/db/${searchId.value}`)
+    const res = await axios.get(`/api/${searchId.value}`)
     DBResults.value = res.data
   }
   catch (err) {
@@ -25,7 +25,7 @@ const messages = ref([])
 const getData = async () => {
 
   try {
-    const res = await axios.get(`/api/db/aichats`)
+    const res = await axios.get(`/api/aichats`)
     messages.value = res.data
   }
   catch (err) {
