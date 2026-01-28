@@ -1,8 +1,10 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref, useTemplateRef} from 'vue';
 import axios from "axios";
 import router from "@/router/index.js";
 import {RouterLink} from "vue-router";
+import { secret }  from "@/composables/login.js";
+
 
 const text1 = ref(null);
 const text2 = ref(null);
@@ -21,6 +23,11 @@ function gotonext(nextField) {
   }
 }
 
+const showModal = ref(false);
+
+function setModal(value) {
+  showModal.value = value;
+}
 
 const upassPassed = async (username) => {
   try {
@@ -32,7 +39,13 @@ const upassPassed = async (username) => {
             password: upassword.value,
           })
           console.log(postResponse.data)
-          await router.push("/main");
+          if (postResponse.data) {
+            await router.push("/");
+          }
+          else {
+            console.error("user already exists");
+            setModal(true)
+          }
         } catch (err) {
           console.error(err)
         }
@@ -50,11 +63,12 @@ const upassPassed = async (username) => {
 }
 
 
+
 </script>
 
 <template>
   <header >
-    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/welcome">Home</RouterLink>
   </header>
   <div class="flex h-screen items-center justify-center">
 
@@ -76,7 +90,7 @@ const upassPassed = async (username) => {
         </p>
 
         <input type="password" class="input validator" required placeholder="Password" minlength="8"
-               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               pattern="[A-Za-z\d]{8,32}"
                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                ref="text2"
                v-model="upassword"
@@ -100,11 +114,22 @@ const upassPassed = async (username) => {
           passwords don't match
         </p>
 
-
       </fieldset>
       <button class="btn "
               @click="upassPassed(uusername, upassword)"
       >register</button>
+      <dialog ref="my_modal_1" class="modal" :class="{ 'modal-open': showModal }">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">Hello!</h3>
+          <p class="py-4">Username taken.</p>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn" @click="setModal(false)">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   </div>
 </template>

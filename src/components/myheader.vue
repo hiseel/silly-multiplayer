@@ -15,7 +15,7 @@ import {RouterLink} from "vue-router";
 
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/settings">Settings</RouterLink>
-      <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
+      <RouterLink :to="{name:'main'}">Rooms</RouterLink>
       <RouterLink to="/login">Login</RouterLink>
       <RouterLink to="/registration">Register user</RouterLink>
     </nav>

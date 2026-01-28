@@ -19,10 +19,8 @@ onMounted(() => {
 <!--  <Chat />-->
 
   <main>
-    <router-view  />
-
+    <router-view />
 <!--    <testView />-->
-
   </main>
 
 </template>

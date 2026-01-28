@@ -1,6 +1,7 @@
 <script setup>
 
 import router from "@/router/index.js";
+import {RouterLink} from "vue-router";
 </script>
 
 <template>
@@ -9,12 +10,10 @@ import router from "@/router/index.js";
     <h1>Home Page</h1>
     <p>Welcome page.</p>
 
-    <button class="btn"
-            @click="router.push('/registration')"
-    >Register</button>
-    <button class="btn"
-            @click="router.push('/login')"
-    >login</button>
+    <RouterLink class="btn" to="/login"> login</RouterLink>
+
+    <RouterLink class="btn" to='/registration'> register</RouterLink>
+
   </div>
 </template>
 

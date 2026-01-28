@@ -21,25 +21,21 @@ const submit = async () => {
       username: uusername.value,
       password: upassword.value,
     })
+    console.log(postResponse.data);
     if (postResponse.data.success) {
-      await router.push("/main");
-      const user_secret = await postResponse.data.secret
-      await axios.get('localhost/api/users', {
-        params:{secret: user_secret}
-      });
+      await router.push("/");
     }
+
   } catch (err) {
     console.error(err)
   }
 }
 
-
-
 </script>
 
 <template>
   <header >
-    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/welcome">Home</RouterLink>
   </header>
   <div class="flex h-screen items-center justify-center">
 

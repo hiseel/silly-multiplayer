@@ -28,7 +28,7 @@ watch(() => props.roomID, getMessageData);
   <div class="chat-container">
     <div class="message-list">
       <div v-for="value in message">
-        <div> {{ value.user_id }} </div>
+        <div> {{ value.username }} </div>
         <p> {{ value.message }} </p>
       </div>
     </div>
