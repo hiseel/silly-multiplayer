@@ -21,20 +21,20 @@ const search = async () => {
     DBResults.value = "null"
   }
 }
-const messages = ref([])
-const getData = async () => {
-
-  try {
-    const res = await axios.get(`/api/aichats`)
-    messages.value = res.data
-  }
-  catch (err) {
-    console.error(err)
-    messages.value = []
-  }
-}
-
-onMounted(() => getData())
+// const messages = ref([])
+// const getData = async () => {
+//
+//   try {
+//     const res = await axios.get(`/api/aichats`)
+//     messages.value = res.data
+//   }
+//   catch (err) {
+//     console.error(err)
+//     messages.value = []
+//   }
+// }
+//
+// onMounted(() => getData())
 </script>
 
 <template>
@@ -45,14 +45,9 @@ onMounted(() => getData())
   <div v-if="DBResults">
     <pre style="background: var(--color-base-300); padding: 15px;">{{ JSON.stringify(DBResults, null, 2) }}</pre>
   </div>
-
-<!--  <div style="display:block">-->
-<!--    <div v-for="value in messages">-->
-<!--      <div> {{ value.username }} </div>-->
-<!--      <p> {{ value.message }} </p>-->
-<!--    </div>-->
-<!--  </div>-->
-  <button @click="count++">You clicked me {{ count }} times.</button>
+  <button class="btn"
+          @click="count++"
+  >You clicked me {{ count }} times.</button>
 </template>
 
 <style scoped>

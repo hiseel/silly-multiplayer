@@ -1,10 +1,11 @@
 <script setup>
 import {computed, ref} from 'vue';
 import axios from "axios";
+import {RouterLink} from "vue-router";
 
 const text1 = ref(null);
 const text2 = ref(null);
-const flag = ref(null);
+const flag = ref("login");
 const uusername = ref(null);
 const upassword = ref(null);
 
@@ -16,10 +17,10 @@ function gotonext(nextField) {
 
 const submit = async () => {
   try {
-    const postResponse = await axios.post(`/api/users`, {
+    const postResponse = await axios.post(`/api/users/login`, {
       username: uusername.value,
       password: upassword.value,
-      flag: flag.value
+      flag: flag,
     })
     console.log(postResponse.data)
   } catch (err) {
@@ -42,9 +43,8 @@ const submit = async () => {
                class="input"
                placeholder="nickname"
                v-model="uusername"
-               @keyup.enter="gotonext(text2); flag = register; console.log(uusername);"
+               @keyup.enter="gotonext(text2); console.log(uusername);"
         />
-        <p class="label">sus passWort</p>
 
         <label class="label">password</label>
         <input type="text"
@@ -54,10 +54,11 @@ const submit = async () => {
                v-model="upassword"
                @keyup.enter=" console.log(upassword);"
         />
-        <p class="label">sus passWort</p>
+        <p class="label">new user?</p>
+        <RouterLink :to="{name: 'registration'}">click here to register</RouterLink>
       </fieldset>
-      <button class="btn "
-              @click="flag = 'login'; submit(); console.log(uusername, upassword)"
+      <button class="btn"
+              @click="submit(); console.log(uusername, upassword)"
       >login</button>
     </div>
   </div>
