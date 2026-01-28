@@ -1,7 +1,6 @@
 <script setup>
 import {onMounted, ref, computed} from 'vue'
 import ChatBox from "@/components/ChatBox.vue";
-import Chat from "@/components/Chat.vue";
 import dayjs from "dayjs";
 import {RouterLink, useRoute} from "vue-router";
 import axios from "axios";
@@ -85,7 +84,7 @@ const sendMessage = async (event) => {
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">
-          <h2>Chat Chat! {{ rooms.name }} </h2>
+          <h2>Chat Chat! {{rooms.name}} </h2>
           <ChatBox v-if="activeRoomID"
                    :roomID="activeRoomID"
                    :message="filter.message"

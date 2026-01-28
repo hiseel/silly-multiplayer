@@ -6,7 +6,6 @@ import testView from "@/views/testView.vue";
 <template>
 <testView />
 
-
 </template>
 
 <style scoped>
