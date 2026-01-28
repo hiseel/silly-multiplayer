@@ -2,14 +2,15 @@
 import {computed, ref} from 'vue';
 import axios from "axios";
 import router from "@/router/index.js";
+import {RouterLink} from "vue-router";
 
 const text1 = ref(null);
 const text2 = ref(null);
 const text3 = ref(null);
-const flag = ref("register");
 const uusername = ref(null);
 const upassword = ref(null);
 const upasswordControl = ref(null);
+
 const upassCompare = computed(() => {
   return upasswordControl.value === upassword.value;
 });
@@ -24,12 +25,11 @@ function gotonext(nextField) {
 const upassPassed = async (username) => {
   try {
     if (username) {
-      if (upassCompare) {
+      // if (!upassCompare) {
         try {
           const postResponse = await axios.post(`/api/users/register`, {
             username: uusername.value,
             password: upassword.value,
-            flag: flag.value,
           })
           console.log(postResponse.data)
           await router.push("/main");
@@ -39,55 +39,68 @@ const upassPassed = async (username) => {
       } else {
         console.error("Passwords don't match")
       }
-    }
-    else {
-      console.error("username not provided")
-    }
+    // }
+    // else {
+    //   console.error("username not provided")
+    // }
   }
   catch (error) {
     console.error(error)
   }
 }
 
+
 </script>
 
 <template>
+  <header >
+    <RouterLink to="/">Home</RouterLink>
+  </header>
   <div class="flex h-screen items-center justify-center">
 
     <div class="register-container">
       <fieldset class="fieldset">
         <legend class="fieldset-legend">register</legend>
+        <legend class="fieldset-legend">already have an account?</legend>
+        <RouterLink :to="{name: 'login'}"> click to login existing user</RouterLink>
 
-        <label class="label">name</label>
-        <input type="text"
+        <input type="text" class="input validator" required placeholder="Username"
+               pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="30" title="Only letters, numbers or dash"
                ref="text1"
-               class="input"
-               placeholder="nickname"
                v-model="uusername"
                @keyup.enter="gotonext(text2); console.log(uusername);"
         />
-        <p class="label">sus passWort</p>
+        <p class="validator-hint hidden">
+          Must be 3 to 30 characters
+          <br/>containing only letters, numbers or dash
+        </p>
 
-        <label class="label">password</label>
-        <input type="text"
+        <input type="password" class="input validator" required placeholder="Password" minlength="8"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                ref="text2"
-               class="input"
-               placeholder="Password"
                v-model="upassword"
                @keyup.enter="gotonext(text3); console.log(upassword);"
         />
-        <p class="label">sus passWort</p>
+        <p class="validator-hint hidden">
+          Must be more than 8 characters, including
+          <br/>At least one number
+          <br/>At least one lowercase letter
+          <br/>At least one uppercase letter
+        </p>
 
-        <label class="label">password</label>
-        <input type="text"
+        <input type="password" class="input validator" required placeholder="Repeat password" minlength="8"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                ref="text3"
-               class="input"
-               placeholder="Password"
                v-model="upasswordControl"
-               @keyup.enter="upassPassed(uusername, upassword); console.log(upasswordControl);"
+               @keyup.enter="gotonext(text3); console.log(upassword);"
         />
-        <legend class="fieldset-legend">already have an account?</legend>
-        <RouterLink :to="{name: 'login'}"> click to login existing user</RouterLink>
+        <p class="validator-hint hidden" v-if="!upassCompare">
+          passwords don't match
+        </p>
+
+
       </fieldset>
       <button class="btn "
               @click="upassPassed(uusername, upassword)"

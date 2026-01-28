@@ -2,10 +2,10 @@
 import {computed, ref} from 'vue';
 import axios from "axios";
 import {RouterLink} from "vue-router";
+import router from "@/router/index.js";
 
 const text1 = ref(null);
 const text2 = ref(null);
-const flag = ref("login");
 const uusername = ref(null);
 const upassword = ref(null);
 
@@ -20,17 +20,27 @@ const submit = async () => {
     const postResponse = await axios.post(`/api/users/login`, {
       username: uusername.value,
       password: upassword.value,
-      flag: flag,
     })
-    console.log(postResponse.data)
+    if (postResponse.data.success) {
+      await router.push("/main");
+      const user_secret = await postResponse.data.secret
+      await axios.get('localhost/api/users', {
+        params:{secret: user_secret}
+      });
+    }
   } catch (err) {
     console.error(err)
   }
 }
 
+
+
 </script>
 
 <template>
+  <header >
+    <RouterLink to="/">Home</RouterLink>
+  </header>
   <div class="flex h-screen items-center justify-center">
 
     <div class="login-container">
@@ -59,6 +69,7 @@ const submit = async () => {
       </fieldset>
       <button class="btn"
               @click="submit(); console.log(uusername, upassword)"
+
       >login</button>
     </div>
   </div>
