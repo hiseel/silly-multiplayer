@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import axios from 'axios'
+import {GET} from "@/composables/api.js"
 
 export function useUser() {
     const users = ref(null)
@@ -10,7 +10,7 @@ export function useUser() {
         loading.value = true
         try {
             // Calls the "Safe" endpoint
-            const res = await axios.get(`/api/users/${user_id}`)
+            const res = await GET(`/api/users/${user_id}`)
             users.value = res.data
         } catch (err) {
             error.value = "Could not load user"

@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
-import axios from "axios";
+import {GET} from "@/composables/api.js"
 
 const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
 // const result = defineModel('ActiveRoomID');
@@ -8,7 +8,7 @@ const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
 const messages = ref([])
 const getMessageData = async () => {
   try {
-    const res = await axios.get(`/api/userchats`)
+    const res = await GET(`/api/userchats`)
     messages.value = res.data
   }
   catch (err) {

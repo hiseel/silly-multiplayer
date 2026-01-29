@@ -1,8 +1,12 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import axios from "axios";
 import {RouterLink} from "vue-router";
 import router from "@/router/index.js";
+import {checkLoginState, getSecret, setSecret} from "@/composables/login.js";
+import Cookies from "js-cookie";
+import {GET} from "@/composables/api.js";
+
 
 const text1 = ref(null);
 const text2 = ref(null);
@@ -15,21 +19,34 @@ function gotonext(nextField) {
   }
 }
 
-const submit = async () => {
+const submit = async (username, password) => {
   try {
-    const postResponse = await axios.post(`/api/users/login`, {
-      username: uusername.value,
-      password: upassword.value,
-    })
-    console.log(postResponse.data);
-    if (postResponse.data.success) {
-      await router.push("/");
+    if (!username || !password) {
+      console.error("Username and password are required");
     }
-
+    else {
+      const postResponse = await axios.post(`/api/users/login`, {
+        username: uusername.value,
+        password: upassword.value,
+      })
+      console.log(postResponse.data);
+      if (postResponse.data.success) {
+        await router.push("/");
+        setSecret(postResponse.data.secret);
+        Cookies.set('secret', postResponse.data.secret);
+        console.log(postResponse.data);
+      }
+    }
   } catch (err) {
     console.error(err)
   }
 }
+
+onMounted(() => {
+  if (!getSecret()) {
+    router.push("/");
+  }
+})
 
 </script>
 
@@ -37,7 +54,7 @@ const submit = async () => {
   <header >
     <RouterLink to="/welcome">Home</RouterLink>
   </header>
-  <div class="flex h-screen items-center justify-center">
+  <div class="flex h-screen items-center justify-center" style="max-height: max-content">
 
     <div class="login-container">
       <fieldset class="fieldset">
@@ -53,18 +70,20 @@ const submit = async () => {
         />
 
         <label class="label">password</label>
-        <input type="text"
+        <div class="join">
+          <input type="password"
                ref="text2"
                class="input"
                placeholder="Password"
                v-model="upassword"
                @keyup.enter=" console.log(upassword);"
-        />
+          />
+        </div>
         <p class="label">new user?</p>
         <RouterLink :to="{name: 'registration'}">click here to register</RouterLink>
       </fieldset>
       <button class="btn"
-              @click="submit(); console.log(uusername, upassword)"
+              @click="submit(uusername, upassword); console.log(uusername, upassword)"
 
       >login</button>
     </div>
@@ -74,7 +93,7 @@ const submit = async () => {
 <style scoped>
 .login-container {
   min-height: 50vh;
-  max-height: 100vh;
+  max-height: max-content;
   margin: 10px;
   display: flex;
   flex-direction: column;

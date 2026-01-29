@@ -1,6 +1,6 @@
 <script setup>
 
-import axios from 'axios'
+import {GET} from "@/composables/api.js"
 import {onMounted, ref} from 'vue'
 
 const count = ref(0)
@@ -13,7 +13,7 @@ const search = async () => {
   if (!searchId.value) return
 
   try {
-    const res = await axios.get(`/api/${searchId.value}`)
+    const res = await GET(`/api/${searchId.value}`)
     DBResults.value = res.data
   }
   catch (err) {
@@ -25,7 +25,7 @@ const search = async () => {
 // const getData = async () => {
 //
 //   try {
-//     const res = await axios.get(`/api/aichats`)
+//     const res = await GET(`/api/aichats`)
 //     messages.value = res.data
 //   }
 //   catch (err) {

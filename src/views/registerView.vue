@@ -3,8 +3,7 @@ import {computed, onMounted, ref, useTemplateRef} from 'vue';
 import axios from "axios";
 import router from "@/router/index.js";
 import {RouterLink} from "vue-router";
-import { secret }  from "@/composables/login.js";
-
+import {getSecret} from "@/composables/login.js";
 
 const text1 = ref(null);
 const text2 = ref(null);
@@ -40,7 +39,7 @@ const upassPassed = async (username) => {
           })
           console.log(postResponse.data)
           if (postResponse.data) {
-            await router.push("/");
+            await router.push("/login");
           }
           else {
             console.error("user already exists");
@@ -62,7 +61,11 @@ const upassPassed = async (username) => {
   }
 }
 
-
+onMounted(() => {
+  if (getSecret()) {
+    router.push("/");
+  }
+})
 
 </script>
 
@@ -70,7 +73,7 @@ const upassPassed = async (username) => {
   <header >
     <RouterLink to="/welcome">Home</RouterLink>
   </header>
-  <div class="flex h-screen items-center justify-center">
+  <div class="flex h-screen items-center justify-center" style="max-height: max-content">
 
     <div class="register-container">
       <fieldset class="fieldset">
@@ -90,7 +93,7 @@ const upassPassed = async (username) => {
         </p>
 
         <input type="password" class="input validator" required placeholder="Password" minlength="8"
-               pattern="[A-Za-z\d]{8,32}"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}"
                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                ref="text2"
                v-model="upassword"
@@ -104,11 +107,11 @@ const upassPassed = async (username) => {
         </p>
 
         <input type="password" class="input validator" required placeholder="Repeat password" minlength="8"
-               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}"
                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                ref="text3"
                v-model="upasswordControl"
-               @keyup.enter="gotonext(text3); console.log(upassword);"
+               @keyup.enter="upassPassed(uusername, upassword); console.log(upassword);"
         />
         <p class="validator-hint hidden" v-if="!upassCompare">
           passwords don't match
@@ -120,7 +123,7 @@ const upassPassed = async (username) => {
       >register</button>
       <dialog ref="my_modal_1" class="modal" :class="{ 'modal-open': showModal }">
         <div class="modal-box">
-          <h3 class="text-lg font-bold">Hello!</h3>
+          <h3 class="text-lg font-bold">Error!</h3>
           <p class="py-4">Username taken.</p>
           <div class="modal-action">
             <form method="dialog">
@@ -137,9 +140,10 @@ const upassPassed = async (username) => {
 <style scoped>
 .register-container {
   min-height: 50vh;
-  max-height: 100vh;
+  max-height: max-content;
   margin: 10px;
   display: flex;
   flex-direction: column;
 }
+
 </style>

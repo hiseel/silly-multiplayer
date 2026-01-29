@@ -4,25 +4,24 @@ import {RouterLink, RouterView, useRoute} from 'vue-router'
 import {onMounted} from "vue";
 
 import myheader from "@/components/myheader.vue";
+import {checkLoginState} from "@/composables/login.js";
 
 const route = useRoute();
 
 
-
 onMounted(() => {
   document.documentElement.setAttribute('data-theme', 'luxury')
+  checkLoginState()
 })
 </script>
 
 <template>
   <myheader v-if="!route.meta.hideHeader"></myheader>
 <!--  <Chat />-->
-
   <main>
     <router-view />
 <!--    <testView />-->
   </main>
-
 </template>
 
 <style scoped>

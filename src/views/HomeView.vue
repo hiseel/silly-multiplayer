@@ -21,6 +21,7 @@ import {RouterLink} from "vue-router";
 .home-buttons-container {
   display: flex;
   min-height: 70vh;
+  max-height: max-content;
   flex-direction: column;
 }
 </style>

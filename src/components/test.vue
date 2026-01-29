@@ -3,12 +3,12 @@ import {onMounted, ref} from 'vue'
 import ChatBox from "@/components/ChatBox.vue";
 import Chat from "@/components/Chat.vue";
 import {RouterLink} from "vue-router";
-import axios from "axios";
+import {GET} from "@/composables/api.js"
 
 const roomID = ref([])
 const getData = async () => {
   try {
-    const res = await axios.get(`/api/rooms`)
+    const res = await GET(`/api/rooms`)
     roomID.value = res.data
   }
   catch (err) {

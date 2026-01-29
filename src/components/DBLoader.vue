@@ -1,6 +1,7 @@
 <script setup>
-import axios from "axios";
+import {GET} from "@/composables/api.js"
 import {onMounted, ref} from 'vue'
+
 
 const items = ref([])      // Store the SQLite data here
 const error = ref(null)    // Store error messages here
@@ -12,7 +13,7 @@ const test = ref(null)
 const fetchData = async () => {
   loading.value = true
   try {
-    const response = await axios.get('/api/users')
+    const response = await GET('/api/users')
 
     items.value = response.data
 
@@ -33,7 +34,7 @@ onMounted(() => {
 onMounted(async () => {
   try {
     // 2. Fetch the data (Using your proxy path from the previous step)
-    const response = await axios.get('/api/users')
+    const response = await GET('/api/users')
 
     // 3. Store the data
     rawData.value = response.data
