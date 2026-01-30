@@ -1,6 +1,20 @@
 <script setup>
 
 import {RouterLink} from "vue-router";
+import {getSecret, logOut} from "@/composables/login.js";
+import {onMounted, ref} from "vue";
+import {GET} from "@/composables/api.js";
+const UUID = ref([])
+
+async function getUserInf() {
+  const res = await GET("/api/users");
+  UUID.value = res.data
+  return UUID
+}
+
+onMounted(() => {
+  getUserInf();
+})
 
 </script>
 
@@ -13,17 +27,38 @@ import {RouterLink} from "vue-router";
       <label for="menu" class="btn btn-ghost drawer-button">Menu</label>
     </div>
     <div class="drawer-side">
-      <label for="menu" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu min-h-full bg-base-200 bg-opacity-1 w-80 p-4">
-        <!-- Sidebar content here -->
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/settings">Settings</RouterLink>
-        <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
-      </ul>
+      <label for="menu" aria-label="close sidebar" class="drawer-overlay flex flex-col"></label>
+      <div class="drawer-container min-h-full bg-base-200 bg-opacity-1 w-80 p-4 justify-end">
+        <ul class="menu min-h-full w-80 p-4">
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/settings">Settings</RouterLink>
+          <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
+        </ul>
+
+        <div>Current user uuid:<br> {{UUID.user_id}}
+        </div>
+        <div class="logout-container max-w-2rem">
+          <button class="btn btn-ghost" @click="logOut(getSecret())">Log Out</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.logout-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  max-height: max-content;
+  padding: 0 1rem;
+}
 
+.drawer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  max-height: max-content;
+}
 </style>

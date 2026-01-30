@@ -31,10 +31,9 @@ const submit = async (username, password) => {
       })
       console.log(postResponse.data);
       if (postResponse.data.success) {
-        await router.push("/");
+        await router.replace("/");
         setSecret(postResponse.data.secret);
         Cookies.set('secret', postResponse.data.secret);
-        console.log(postResponse.data);
       }
     }
   } catch (err) {
@@ -45,6 +44,9 @@ const submit = async (username, password) => {
 onMounted(() => {
   if (!getSecret()) {
     router.push("/");
+  }
+  else {
+    router.replace("/login");
   }
 })
 
