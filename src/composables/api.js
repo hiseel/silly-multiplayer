@@ -3,7 +3,7 @@ import {getSecret} from "./login.js";
 
 export async function GET(url) {
     try {
-        const response = await axios.get(url, {params: {secret: getSecret()}});
+        const response = await axios.get(url, {params: {secret: await getSecret()}});
         if (response.status === 200) {
             return {
                 success: true,
@@ -18,14 +18,14 @@ export async function GET(url) {
     }
     catch (error) {
         return {
-            success: false,
+            data: "response error " + error,
         }
     }
 }
 
 export async function POST(url, data) {
     try {
-        const response = await axios.post(url, {secret:getSecret(), ...data});
+        const response = await axios.post(url, {secret: getSecret(), ...data});
         if (response.status >= 200 && response.status < 300) {
             return {
                 success: true,
@@ -47,7 +47,7 @@ export async function POST(url, data) {
 
 export async function PUT(url, data) {
     try {
-        const response = await axios.put(url, {secret:getSecret(), ...data});
+        const response = await axios.put(url, {secret: getSecret(), ...data});
         if (response.status >= 200 && response.status < 300) {
             return {
                 success: true,
@@ -69,7 +69,7 @@ export async function PUT(url, data) {
 
 export async function DELETE(url) {
     try {
-        const response = await axios.delete(url, {params: {secret:getSecret()}});
+        const response = await axios.delete(url, {params: {secret: getSecret()}});
         if (response.status >= 200 && response.status < 300) {
             return {
                 success: true,

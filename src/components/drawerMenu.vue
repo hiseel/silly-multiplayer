@@ -1,19 +1,13 @@
 <script setup>
 
 import {RouterLink} from "vue-router";
-import {getSecret, logOut} from "@/composables/login.js";
+import {getSecret, getUserInf, logOut} from "@/composables/login.js";
 import {onMounted, ref} from "vue";
-import {GET} from "@/composables/api.js";
-const UUID = ref([])
+let UUID = ref(null)
 
-async function getUserInf() {
-  const res = await GET("/api/users");
-  UUID.value = res.data
-  return UUID
-}
 
 onMounted(() => {
-  getUserInf();
+  UUID = getUserInf();
 })
 
 </script>
@@ -35,7 +29,8 @@ onMounted(() => {
           <RouterLink :to="{name:'rooms'}">Rooms</RouterLink>
         </ul>
 
-        <div>Current user uuid:<br> {{UUID.user_id}}
+        <div >
+          Current user uuid:<br> {{UUID}}
         </div>
         <div class="logout-container max-w-2rem">
           <button class="btn btn-ghost" @click="logOut(getSecret())">Log Out</button>

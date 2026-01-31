@@ -9,10 +9,11 @@ const route = useRoute();
 // const ActiveRoomID = ref([])
 
 const rooms = ref([])
+
 const getData = async () => {
   try {
     const result = await GET(`/api/rooms`)
-    rooms.value = result.data
+      rooms.value = result?.data
   }
   catch (err) {
     console.error(err)
@@ -85,7 +86,7 @@ const sendMessage = async (event) => {
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">
-          <h2>Chat Chat! {{rooms.name}} </h2>
+          <h2>Chat Chat! {{rooms?.name}} </h2>
           <ChatBox v-if="activeRoomID"
                    :roomID="activeRoomID"
                    :message="filter.message"

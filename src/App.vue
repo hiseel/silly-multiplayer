@@ -4,7 +4,7 @@ import {RouterLink, RouterView, useRoute} from 'vue-router'
 import {onMounted} from "vue";
 
 import myheader from "@/components/myheader.vue";
-import {checkLoginState} from "@/composables/login.js";
+import {checkLoginState, getUserInf} from "@/composables/login.js";
 
 const route = useRoute();
 
@@ -12,6 +12,7 @@ const route = useRoute();
 onMounted(() => {
   document.documentElement.setAttribute('data-theme', 'luxury')
   checkLoginState()
+  // getUserInf()
 })
 </script>
 

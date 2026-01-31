@@ -1,11 +1,11 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from "axios";
 import {RouterLink} from "vue-router";
 import router from "@/router/index.js";
-import {checkLoginState, getSecret, setSecret} from "@/composables/login.js";
+import {checkLoginState, setSecret} from "@/composables/login.js";
+// @ts-ignore
 import Cookies from "js-cookie";
-import {GET} from "@/composables/api.js";
 
 
 const text1 = ref(null);
@@ -31,9 +31,14 @@ const submit = async (username, password) => {
       })
       console.log(postResponse.data);
       if (postResponse.data.success) {
-        await router.replace("/");
         setSecret(postResponse.data.secret);
         Cookies.set('secret', postResponse.data.secret);
+        await router.replace("/");
+        // await getSecret();
+      }
+      else {
+        console.error("erororororooror")
+        return null
       }
     }
   } catch (err) {
@@ -42,12 +47,7 @@ const submit = async (username, password) => {
 }
 
 onMounted(() => {
-  if (!getSecret()) {
-    router.push("/");
-  }
-  else {
-    router.replace("/login");
-  }
+  checkLoginState()
 })
 
 </script>
@@ -86,7 +86,6 @@ onMounted(() => {
       </fieldset>
       <button class="btn"
               @click="submit(uusername, upassword); console.log(uusername, upassword)"
-
       >login</button>
     </div>
   </div>
