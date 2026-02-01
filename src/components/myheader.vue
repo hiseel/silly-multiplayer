@@ -2,17 +2,18 @@
 
 import DrawerMenu from "@/components/drawerMenu.vue";
 import {RouterLink} from "vue-router";
-import {logOut} from "@/composables/login.js";
+import {getSecret, logOut} from "@/composables/login.js";
 </script>
 
 <template>
   <div class="card flex flex-row">
 
     <drawer-menu>
-      <DrawerMenu />
+      <DrawerMenu v-if="getSecret()"/>
     </drawer-menu>
     <nav>
       <div class="card">activeUser</div>
+      <p> Secret is: {{getSecret()}}</p>
 
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/settings">Settings</RouterLink>

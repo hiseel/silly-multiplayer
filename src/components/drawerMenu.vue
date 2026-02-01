@@ -7,7 +7,7 @@ let UUID = ref(null)
 
 
 onMounted(() => {
-  UUID = getUserInf();
+  // UUID = getUserInf();
 })
 
 </script>

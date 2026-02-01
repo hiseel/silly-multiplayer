@@ -3,7 +3,7 @@ import {onMounted, ref} from 'vue';
 import axios from "axios";
 import {RouterLink} from "vue-router";
 import router from "@/router/index.js";
-import {checkLoginState, setSecret} from "@/composables/login.js";
+import {setSecret} from "@/composables/login.js";
 // @ts-ignore
 import Cookies from "js-cookie";
 
@@ -34,7 +34,6 @@ const submit = async (username, password) => {
         setSecret(postResponse.data.secret);
         Cookies.set('secret', postResponse.data.secret);
         await router.replace("/");
-        // await getSecret();
       }
       else {
         console.error("erororororooror")
@@ -47,7 +46,6 @@ const submit = async (username, password) => {
 }
 
 onMounted(() => {
-  checkLoginState()
 })
 
 </script>

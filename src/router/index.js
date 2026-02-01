@@ -8,9 +8,9 @@ import testView from "@/views/testView.vue";
 import loginView from "@/views/loginView.vue";
 import registerView from "@/views/registerView.vue";
 import mainView from "@/views/mainView.vue";
-
-
-
+import {getSecret, setSecret} from "@/composables/login.js";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 
 const router = createRouter({
@@ -24,12 +24,12 @@ const router = createRouter({
         {
             path: '/about',
             name: 'about',
-            component: AboutView
+            component: AboutView,
         },
         {
             path: '/settings',
             name: 'settings',
-            component: SettingsView, // This component must have its own <RouterView> inside!
+            component: SettingsView,
             children: [
                 {
                     path: 'account',
@@ -41,13 +41,13 @@ const router = createRouter({
             path: '/room/:roomId',
             name: 'room',
             component: testView,
-            props: true
+            props: true,
         },
         {
             path: '/room',
             name: 'rooms',
             component: testView,
-            props: true
+            props: true,
         },
         {
             path: '/login',
@@ -63,12 +63,6 @@ const router = createRouter({
             props: true,
             meta: { hideHeader: true }
         },
-        // {
-        //     path: '/main',
-        //     name: 'main',
-        //     component: testView,
-        //     props: true
-        // },
         {
             path: '/welcome',
             name: 'welcome',
@@ -79,5 +73,47 @@ const router = createRouter({
     ]
 })
 
+export async function checkLoginState() {
+    try {
+        const secret = getSecret()
+        if (secret) {
+            return secret
+        }
+        const secretCookie = Cookies.get('secret')
+        console.log('secretCookie ' + JSON.stringify(secretCookie));
+        if (secretCookie) {
+            const cookieResponse = await axios.get("/api/checkcookie", {params: {cookie: secretCookie}});
+            console.log("cookieResponse: " + JSON.stringify(cookieResponse.data));
+            if (cookieResponse.data?.valid === true) {
+                console.log("continue session");
+                setSecret(secretCookie);
+                return secretCookie;
+            }
+            else {
+                console.error("cookie not valid");
+            }
+        }
+        else{
+            console.error("cookie not found");
+        }
+    }
+    catch (err) {
+        console.error(err)
+    }
+}
+
+router.beforeEach(async function (to, from) {
+    const secret = await checkLoginState();
+    console.log('beforeEach', to.path + ' - Auth: ' + secret);
+    if ((to.path === '/login' || to.path === 'login') || (to.path === '/welcome' ||  to.path === 'welcome') || (to.path === '/register' || to.path === 'register')) {
+        if (secret) {
+            return '/';
+        }
+        return;
+    }
+    if (!secret) {
+        return '/welcome';
+    }
+})
 
 export default router

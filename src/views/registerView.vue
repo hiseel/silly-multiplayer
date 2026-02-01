@@ -62,12 +62,7 @@ const upassPassed = async (username) => {
 }
 
 onMounted(() => {
-  if (!getSecret()) {
-    router.push("/");
-  }
-  else {
-    router.replace("/registration");
-  }
+
 })
 
 </script>

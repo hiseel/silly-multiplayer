@@ -4,33 +4,21 @@ import Cookies from "js-cookie";
 import {ref} from "vue";
 import {GET, POST} from "@/composables/api.js";
 
-const secret = ref(null);
+let secret = null;
 
 export function setSecret(key) {
-    secret.value = key;
+    secret = key;
     console.log("secret stored: " + key);
     // console.log("cookiesecret stored: " + Cookies.get(key));
 }
 
-export async function getSecret() {
-    try {
-        if (!secret.value) {
-            console.error("Secret not found.");
-            // await router.push("/login");
-            return null
-        }
-        else {
-            console.log("RETURNING SECRET SET TO " +  JSON.stringify(secret.value));
-            return secret.value;
-        }
-    }
-    catch (error) {
-        console.error(error);
-    }
+export function getSecret() {
+    // console.log("RETURNING SECRET SET TO " +  JSON.stringify(secret.value));
+    return secret;
 }
 
 export async function logOut(endSecret) {
-    if (!!secret) {
+    if (secret) {
         Cookies.remove('secret');
         await POST('/api/users/logout', {params: {secret: endSecret}});
         await router.replace('/login');
@@ -41,45 +29,17 @@ export async function logOut(endSecret) {
     }
 }
 
-export async function checkLoginState() {
-    try {
-        const secretCookie = Cookies['get']('secret')
-        // secret = secretCookie;
 
-        console.log('secretCookie ' + JSON.stringify(secretCookie));
-        if (secretCookie) {
-            const cookieResponse = await axios.get("/api/checkcookie", {params: {cookie: secretCookie}});
-            console.log("cookieResponse: " + JSON.stringify(cookieResponse.data));
-            if (cookieResponse.data?.valid === true) {
-                console.log("continue session");
-                setSecret(secretCookie);
-                await router.replace("/");
-            }
-            else {
-                // Cookies.remove('secret');
-                console.error("cookie not valid");
-                await router.push("/login");
-            }
-        }
-        else{
-            // Cookies.remove('secret');
-            console.error("cookie not found");
-            await router.push("/login");
-        }
-    }
-    catch (err) {
-        console.error(err)
-    }
-}
 
 let UUID = ref(null)
 
 export async function getUserInf() {
     try {
-        const res = await GET("/api/users/active");
         if (!secret.value) {
             console.error("GETUSER RETURNED cookie not found");
         }
+        const res = await GET("/api/users/active");
+
         if (!res) {
             console.error("returning null Inf" + JSON.stringify(res));
             return null;
@@ -92,7 +52,6 @@ export async function getUserInf() {
         }
         else if (res.response === 403) {
             console.error("end cookie not found");
-            await router.push("/login");
         }
         else {
             return new Error("Could not find user information");
@@ -102,6 +61,7 @@ export async function getUserInf() {
         console.error(err);
     }
 }
+
 
 export default {
 };

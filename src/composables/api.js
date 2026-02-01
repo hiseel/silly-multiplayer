@@ -1,9 +1,13 @@
 import axios from "axios";
 import {getSecret} from "./login.js";
 
+// const curSecret = getSecret() {
+// }
+
+
 export async function GET(url) {
     try {
-        const response = await axios.get(url, {params: {secret: await getSecret()}});
+        const response = await axios.get(url, {params: {secret: getSecret()}});
         if (response.status === 200) {
             return {
                 success: true,
