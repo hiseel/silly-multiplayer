@@ -12,7 +12,7 @@ const rooms = ref([])
 
 const getData = async () => {
   try {
-    const result = await GET(`/api/rooms`)
+    const result = await GET(`/api/secure/rooms`)
       rooms.value = result?.data
   }
   catch (err) {
@@ -25,7 +25,7 @@ onMounted(() => getData())
 const sentmessages = ref([])
 const getMessageData = async () => {
   try {
-    const res = await GET(`/api/userchats`)
+    const res = await GET(`/api/secure/userchats`)
     sentmessages.value = res.data
   }
   catch (err) {
@@ -49,7 +49,7 @@ const currentInput = ref(null)
 const sendMessage = async (event) => {
   if (!event || !event.shiftKey) {
     try {
-      const postResponse = await POST(`/api/userchats`, {message: currentInput.value})
+      const postResponse = await POST(`/api/secure/userchats`, {message: currentInput.value})
       console.log(postResponse.data)
     }
     catch (err) {
@@ -74,7 +74,7 @@ const sendMessage = async (event) => {
         <div class="card-body">
           <h2 class="card-title">Rooms</h2>
           <ul class="menu  w-full">
-            <RouterLink :to="{ name: 'room', params: {roomId: id.room_id}}" v-for="id in rooms" >
+            <RouterLink :to="{ name: 'room', params: {roomId: id.room_id}}" v-for="id in rooms.value" >
               <li><a> {{ id.name }} </a></li>
             </RouterLink>
           </ul>

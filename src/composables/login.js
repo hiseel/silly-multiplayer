@@ -1,48 +1,75 @@
-import axios from "axios";
 import router from "@/router/index.js";
 import Cookies from "js-cookie";
-import {ref} from "vue";
 import {GET, POST} from "@/composables/api.js";
+import {ref} from "vue";
+import axios from "axios";
 
-let secret = null;
+let secret = ref(null);
 
 export function setSecret(key) {
-    secret = key;
+    secret.value = key;
     console.log("secret stored: " + key);
     // console.log("cookiesecret stored: " + Cookies.get(key));
 }
 
 export function getSecret() {
     // console.log("RETURNING SECRET SET TO " +  JSON.stringify(secret.value));
-    return secret;
+    return secret.value;
 }
 
-export async function logOut(endSecret) {
-    if (secret) {
+export async function checkLoginState() {
+    try {
+        const secretCookie = Cookies.get('secret')
+        console.log('secretCookie ' + JSON.stringify(secretCookie));
+        if (secretCookie) {
+            const cookieResponse = await axios.get("/api/checkcookie", {params: {cookie: secretCookie}});
+            console.log("cookieResponse: " + JSON.stringify(cookieResponse.data));
+            if (cookieResponse.data?.valid === true) {
+                console.log("continue session");
+                setSecret(secretCookie);
+            }
+            else {
+                console.error("cookie not valid");
+                Cookies.remove("secret");
+            }
+        }
+        else{
+            console.error("cookie not found");
+        }
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
+
+export async function logOut() {
+    const pepega = await getSecret();
+    if (pepega) {
         Cookies.remove('secret');
-        await POST('/api/users/logout', {params: {secret: endSecret}});
+        await POST('/api/users/logout', {params: {secret: pepega}});
         await router.replace('/login');
         window.location.reload();
     }
     else {
-        return !secret;
+        return !endSecret;
     }
 }
 
+let UUID = null;
 
-
-let UUID = ref(null)
-
-export async function getUserInf() {
+export async function GetUserUUID() {
     try {
-        if (!secret.value) {
+        // secret = await checkLoginState();
+        console.log(getSecret());
+        if (getSecret() === null) {
             console.error("GETUSER RETURNED cookie not found");
         }
-        const res = await GET("/api/users/active");
+        const res = await GET("/api/secure/users/active");
 
         if (!res) {
             console.error("returning null Inf" + JSON.stringify(res));
-            return null;
+
         }
         else if (res.success === true) {
             console.log("getInf retuned success  ??")
@@ -63,5 +90,4 @@ export async function getUserInf() {
 }
 
 
-export default {
-};
+

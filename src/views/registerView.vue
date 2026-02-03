@@ -3,7 +3,6 @@ import {computed, onMounted, ref, useTemplateRef} from 'vue';
 import axios from "axios";
 import router from "@/router/index.js";
 import {RouterLink} from "vue-router";
-import {getSecret} from "@/composables/login.js";
 
 const text1 = ref(null);
 const text2 = ref(null);

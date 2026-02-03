@@ -1,7 +1,6 @@
 <script setup>
-
 import {RouterLink} from "vue-router";
-import {getSecret, getUserInf, logOut} from "@/composables/login.js";
+import {logOut, getSecret} from "@/composables/login.js";
 import {onMounted, ref} from "vue";
 let UUID = ref(null)
 
@@ -33,7 +32,7 @@ onMounted(() => {
           Current user uuid:<br> {{UUID}}
         </div>
         <div class="logout-container max-w-2rem">
-          <button class="btn btn-ghost" @click="logOut(getSecret())">Log Out</button>
+          <button class="btn btn-ghost" @click="logOut()">Log Out</button>
         </div>
       </div>
     </div>

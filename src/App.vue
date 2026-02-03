@@ -12,7 +12,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <myheader v-if="!route?.meta.hideHeader " ></myheader>
+
+    <myheader v-if="!route?.meta.hideHeader" />
 <!--  <Chat />-->
   <main >
     <router-view />

@@ -3,9 +3,9 @@ import {onMounted, ref} from 'vue';
 import axios from "axios";
 import {RouterLink} from "vue-router";
 import router from "@/router/index.js";
-import {setSecret} from "@/composables/login.js";
 // @ts-ignore
 import Cookies from "js-cookie";
+import {setSecret} from "@/composables/login.js";
 
 
 const text1 = ref(null);
@@ -32,7 +32,6 @@ const submit = async (username, password) => {
       console.log(postResponse.data);
       if (postResponse.data.success) {
         setSecret(postResponse.data.secret);
-        Cookies.set('secret', postResponse.data.secret);
         await router.replace("/");
       }
       else {

@@ -1,25 +1,33 @@
 <script setup>
-
-import DrawerMenu from "@/components/drawerMenu.vue";
+import drawerMenu from "@/components/drawerMenu.vue";
 import {RouterLink} from "vue-router";
-import {getSecret, logOut} from "@/composables/login.js";
+import {onBeforeMount, onMounted, ref} from "vue";
+import {getSecret, GetUserUUID} from "@/composables/login.js";
+
+
+const UUID = ref(null);
+const secret = getSecret();
+
+
+
+onMounted(async() => {
+  UUID.value = await GetUserUUID(secret);
+})
 </script>
 
 <template>
   <div class="card flex flex-row">
-
     <drawer-menu>
-      <DrawerMenu v-if="getSecret()"/>
+      <drawerMenu/>
     </drawer-menu>
     <nav>
-      <div class="card">activeUser</div>
-      <p> Secret is: {{getSecret()}}</p>
+        <p class="card">activeUser: {{UUID}}</p>
+        <p> Secret is: {{secret}}</p>
 
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/settings">Settings</RouterLink>
-      <RouterLink :to="{name:'main'}">Rooms</RouterLink>
-<!--      <RouterLink to="/login">Login</RouterLink>-->
-<!--      <RouterLink to="/registration">Register user</RouterLink>-->
+
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/settings">Settings</RouterLink>
+        <RouterLink :to="{name:'main'}">Rooms</RouterLink>
     </nav>
   </div>
 </template>
