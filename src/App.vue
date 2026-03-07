@@ -9,7 +9,7 @@ import {getSecret} from "@/composables/login.js";
 const route = useRoute();
 
 watch(getSecret, function() {
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', getSecret());
+  console.log('watch triggered');
   if (getSecret()) {
     openSocket()
   }
@@ -29,7 +29,7 @@ onMounted(async () => {
 <!--  <Chat />-->
   <main >
     <router-view />
-<!--    <testView />-->
+<!--    <ChatAreaView />-->
   </main>
 </template>
 

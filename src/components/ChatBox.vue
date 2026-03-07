@@ -8,8 +8,9 @@ const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
 const messages = ref([])
 const getMessageData = async () => {
   try {
-    const res = await GET(`/api/userchats`)
+    const res = await GET(`/api/secure/userchats`)
     messages.value = res.data
+    console.log('getMessageData', res.data)
   }
   catch (err) {
     console.error(err)
@@ -27,7 +28,7 @@ watch(() => props.roomID, getMessageData);
 <template>
   <div class="chat-container">
     <div class="message-list">
-      <div v-for="value in message">
+      <div v-for="value in messages">
         <div> {{ value.username }} </div>
         <p> {{ value.message }} </p>
       </div>

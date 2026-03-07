@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import SettingsView from "@/views/SettingsView.vue";
 import AccountView from "@/views/AccountView.vue";
-import testView from "@/views/testView.vue";
+import ChatAreaView from "@/views/chatAreaView.vue";
 import loginView from "@/views/loginView.vue";
 import registerView from "@/views/registerView.vue";
 import mainView from "@/views/mainView.vue";
@@ -38,13 +38,13 @@ const router = createRouter({
         {
             path: '/room/:roomId',
             name: 'room',
-            component: testView,
+            component: ChatAreaView,
             props: true,
         },
         {
             path: '/room',
             name: 'rooms',
-            component: testView,
+            component: ChatAreaView,
             props: true,
         },
         {

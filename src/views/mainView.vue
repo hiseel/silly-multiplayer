@@ -1,10 +1,10 @@
 <script setup>
 
-import testView from "@/views/testView.vue";
+import ChatAreaView from "@/views/chatAreaView.vue";
 </script>
 
 <template>
-<test-view />
+<chat-area-view />
 </template>
 
 <style scoped>

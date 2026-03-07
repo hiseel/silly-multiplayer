@@ -8,7 +8,7 @@ let secret = ref(null);
 
 export function setSecret(key) {
     secret.value = key;
-    console.log("secret stored: " + key);
+    // console.log("secret stored: " + key);
     // console.log("cookiesecret stored: " + Cookies.get(key));
 }
 
@@ -20,7 +20,7 @@ export function getSecret() {
 export async function checkLoginState() {
     try {
         const secretCookie = Cookies.get('secret')
-        console.log('secretCookie ' + JSON.stringify(secretCookie));
+        // console.log('secretCookie ' + JSON.stringify(secretCookie));
         if (secretCookie) {
             const cookieResponse = await axios.get("/api/checkcookie", {params: {cookie: secretCookie}});
             console.log("cookieResponse: " + JSON.stringify(cookieResponse.data));
@@ -51,9 +51,6 @@ export async function logOut() {
         await router.replace('/login');
         window.location.reload();
     }
-    else {
-        return !endSecret;
-    }
 }
 
 let UUID = null;
@@ -61,7 +58,7 @@ let UUID = null;
 export async function GetUserUUID() {
     try {
         // secret = await checkLoginState();
-        console.log(getSecret());
+        // console.log(getSecret());
         if (getSecret() === null) {
             console.error("GETUSER RETURNED cookie not found");
         }
@@ -72,7 +69,7 @@ export async function GetUserUUID() {
 
         }
         else if (res.success === true) {
-            console.log("getInf retuned success  ??")
+            // console.log("getInf retuned success  ??")
             UUID = res.data
             console.log(UUID, "data")
             return UUID

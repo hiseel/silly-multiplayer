@@ -4,6 +4,9 @@ import ChatBox from "@/components/ChatBox.vue";
 import dayjs from "dayjs";
 import {RouterLink, useRoute} from "vue-router";
 import { GET, POST } from "@/composables/api.js"
+import {getSecret, GetUserUUID} from "@/composables/login.js";
+import {openSocket} from "@/composables/socket.js";
+const { isReady } = openSocket()
 
 const route = useRoute();
 // const ActiveRoomID = ref([])
@@ -14,6 +17,7 @@ const getData = async () => {
   try {
     const result = await GET(`/api/secure/rooms`)
       rooms.value = result?.data
+    console.log('rooms acquired')
   }
   catch (err) {
     console.error(err)
@@ -21,6 +25,20 @@ const getData = async () => {
   }
 }
 onMounted(() => getData())
+
+const activeRoomUsers = ref([]);
+const getActiveUsers = async () => {
+  try {
+    const result = await GET(`/api/secure/room_members`)
+    activeRoomUsers.value = result?.data
+    console.log('room members acquired', activeRoomUsers.value)
+  }
+  catch (err) {
+    console.error(err)
+    activeRoomUsers.value = []
+  }
+}
+onMounted(() => getActiveUsers())
 
 const sentmessages = ref([])
 const getMessageData = async () => {
@@ -49,7 +67,7 @@ const currentInput = ref(null)
 const sendMessage = async (event) => {
   if (!event || !event.shiftKey) {
     try {
-      const postResponse = await POST(`/api/secure/userchats`, {message: currentInput.value})
+      const postResponse = await POST(`/api/secure/userchats`, {user_id: UUID.value, message: currentInput.value, room_id: activeRoomID.value})
       console.log(postResponse.data)
     }
     catch (err) {
@@ -62,19 +80,24 @@ const sendMessage = async (event) => {
 }
 
 
+const UUID = ref(null);
+const secret = getSecret();
+onMounted(async() => {
+  UUID.value = await GetUserUUID(secret);
+})
 
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row w-full  min-h-100  gap-2">
 
-    <!-- Left Column (Fixed Width) -->
+    <!--Fixed Width-->
     <div class="w-full md:w-48 flex-none">
       <div class="card bg-base-300 h-full ">
         <div class="card-body">
           <h2 class="card-title">Rooms</h2>
           <ul class="menu  w-full">
-            <RouterLink :to="{ name: 'room', params: {roomId: id.room_id}}" v-for="id in rooms.value" >
+            <RouterLink :to="{ name: 'room', params: {roomId: id.room_id}}" v-for="id in rooms" >
               <li><a> {{ id.name }} </a></li>
             </RouterLink>
           </ul>
@@ -82,7 +105,6 @@ const sendMessage = async (event) => {
       </div>
     </div>
 
-    <!-- Right Column (Fills remaining space) -->
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">
@@ -98,8 +120,10 @@ const sendMessage = async (event) => {
                             v-model="currentInput"
                             @keydown.enter="sendMessage"
                   />
-                  <button class="btn"
-                  @click="sendMessage()"
+                  <button
+                      class="btn"
+                      :disabled="!isReady()"
+                      @click="sendMessage()"
                   >Send</button>
             </div>
           </div>
@@ -107,6 +131,18 @@ const sendMessage = async (event) => {
       </div>
     </div>
 
+    <div class="w-full md:w-48 flex-none">
+      <div class="card bg-base-300 h-full ">
+        <div class="card-body">
+          <h2 class="card-title">Active users</h2>
+          <ul class="menu  w-full">
+            <RouterLink :to="{ name: 'user', params: {roomId: id.user_id}}" v-for="id in activeRoomUsers" >
+              <li><a> {{ id.user_id }} </a></li>
+            </RouterLink>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
