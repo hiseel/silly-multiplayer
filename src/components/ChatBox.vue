@@ -1,34 +1,13 @@
 <script setup>
-import {onMounted, ref, watch} from "vue";
-import {GET} from "@/composables/api.js"
 
 const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
 // const result = defineModel('ActiveRoomID');
-
-const messages = ref([])
-const getMessageData = async () => {
-  try {
-    const res = await GET(`/api/secure/userchats`)
-    messages.value = res.data
-    console.log('getMessageData', res.data)
-  }
-  catch (err) {
-    console.error(err)
-    messages.value = []
-  }
-}
-onMounted(() => getMessageData())
-
-
-watch(() => props.roomID, getMessageData);
-
-
 </script>
 
 <template>
   <div class="chat-container">
     <div class="message-list">
-      <div v-for="value in messages">
+      <div v-for="value in message">
         <div> {{ value.username }} </div>
         <p> {{ value.message }} </p>
       </div>

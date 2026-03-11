@@ -5,8 +5,7 @@ import dayjs from "dayjs";
 import {RouterLink, useRoute} from "vue-router";
 import { GET, POST } from "@/composables/api.js"
 import {getSecret, GetUserUUID} from "@/composables/login.js";
-import {openSocket} from "@/composables/socket.js";
-const { isReady } = openSocket()
+import {openSocket, setUserListener, isReady} from "@/composables/socket.js";
 
 const route = useRoute();
 // const ActiveRoomID = ref([])
@@ -84,6 +83,9 @@ const UUID = ref(null);
 const secret = getSecret();
 onMounted(async() => {
   UUID.value = await GetUserUUID(secret);
+  setUserListener(msg => {
+    sentmessages.value.push(msg.content)
+  })
 })
 
 </script>

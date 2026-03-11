@@ -1,7 +1,7 @@
 <script setup>
 import {RouterView, useRoute} from 'vue-router'
-import {onMounted, watch} from "vue";
-import {openSocket} from '@/composables/socket.js'
+import {onMounted, onUnmounted, watch} from "vue";
+import {disconnect, openSocket} from '@/composables/socket.js'
 
 import myheader from "@/components/myheader.vue";
 import {getSecret} from "@/composables/login.js";
@@ -18,9 +18,14 @@ watch(getSecret, function() {
 onMounted(async () => {
   document.documentElement.setAttribute('data-theme', 'luxury')
 
-
+  if (getSecret()) {
+    openSocket()
+  }
 
 })
+onUnmounted(disconnect)
+
+
 </script>
 
 <template>

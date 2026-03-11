@@ -3,13 +3,12 @@ import drawerMenu from "@/components/drawerMenu.vue";
 import {RouterLink} from "vue-router";
 import {computed, onBeforeMount, onMounted, ref} from "vue";
 import {getSecret, GetUserUUID} from "@/composables/login.js";
-import {openSocket} from "@/composables/socket.js";
+import {status} from "@/composables/socket.js"
 
 
 const UUID = ref(null);
 const secret = getSecret();
 
-const { status } = openSocket()
 
 const statusColor = computed(() => ({
   'text-green-500': status.value === 'connected',
