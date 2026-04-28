@@ -1,6 +1,6 @@
 <script setup>
 
-const props = defineProps([ 'passRoomID', 'message', 'roomID' ]);
+const props = defineProps(['message']);
 // const result = defineModel('ActiveRoomID');
 </script>
 

@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, computed} from 'vue'
+import {onMounted, ref, computed, watch} from 'vue'
 import ChatBox from "@/components/ChatBox.vue";
 import dayjs from "dayjs";
 import {RouterLink, useRoute} from "vue-router";
@@ -9,7 +9,6 @@ import {openSocket, setUserListener, isReady} from "@/composables/socket.js";
 
 const route = useRoute();
 // const ActiveRoomID = ref([])
-
 const rooms = ref([])
 
 const getData = async () => {
@@ -39,34 +38,52 @@ const getActiveUsers = async () => {
 }
 onMounted(() => getActiveUsers())
 
-const sentmessages = ref([])
-const getMessageData = async () => {
+const sentmessages = ref({})
+const getMessageData = async (roomId) => {
   try {
-    const res = await GET(`/api/secure/userchats`)
-    sentmessages.value = res.data
+    const res = await GET(`/api/secure/userchats/${roomId}`)
+    sentmessages.value[roomId] = res.data
   }
   catch (err) {
     console.error(err)
     sentmessages.value = []
   }
 }
-onMounted(() => getMessageData())
 
-const activeRoomID = computed(() => route.params.roomId)
 
-const filter = computed(() => {
-  return {
-    passRoomID: activeRoomID.value,
-    message: sentmessages.value.filter(message => message.room_id === activeRoomID.value).toSorted((a, b) => dayjs(a.timestamp) - dayjs(b.timestamp)),
+const filter = ref(null)
+
+watch(() => route.params.roomId, async () => {
+filter.value = null
+  const activeRoomID = route.params.roomId;
+  if (!activeRoomID) {
+    console.log("no active room ");
+    filter.value = [];
   }
+
+  if (!sentmessages.value[activeRoomID]) {
+    await getMessageData(activeRoomID)
+  }
+
+  if (!sentmessages.value[activeRoomID]) {
+    console.log("no message in room ");
+    filter.value = [];
+  }
+
+  displayMsg()
 })
+
+function displayMsg() {
+  filter.value = sentmessages.value[route.params.roomId].toSorted((a, b) => dayjs(a.timestamp) - dayjs(b.timestamp))
+}
+//TODO optimize toSorted insert
 
 const currentInput = ref(null)
 
 const sendMessage = async (event) => {
   if (!event || !event.shiftKey) {
     try {
-      const postResponse = await POST(`/api/secure/userchats`, {user_id: UUID.value, message: currentInput.value, room_id: activeRoomID.value})
+      const postResponse = await POST(`/api/secure/userchats/` + route.params.roomId, {user_id: UUID.value, message: currentInput.value})
       console.log(postResponse.data)
     }
     catch (err) {
@@ -84,7 +101,10 @@ const secret = getSecret();
 onMounted(async() => {
   UUID.value = await GetUserUUID(secret);
   setUserListener(msg => {
-    sentmessages.value.push(msg.content)
+    sentmessages.value[msg.content.room_id].push(msg.content)
+    if (msg.content.room_id === route.params.roomId) {
+      displayMsg()
+    }
   })
 })
 
@@ -111,10 +131,10 @@ onMounted(async() => {
       <div class="card  h-full w-full">
         <div class="card-body">
           <h2>Chat Chat! {{rooms?.name}} </h2>
-          <ChatBox v-if="activeRoomID"
-                   :roomID="activeRoomID"
-                   :message="filter.message"
-          />
+            <ChatBox v-if="filter"
+                     :roomID="route.params.roomId"
+                     :message="filter"
+            />
           <div>
             <div class="flex flex-row w-full py-10">
                   <textarea class="textarea w-full "

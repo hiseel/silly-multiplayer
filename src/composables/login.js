@@ -69,8 +69,12 @@ export async function GetUserUUID() {
 
         }
         else if (res.success === true) {
-            // console.log("getInf retuned success  ??")
-            UUID = res.data
+            if (res.data.role === "ADMIN") {
+                console.log("admin data triggered ", res.data.role);
+                return res.data
+            }
+            console.log("getUUid retuned success ", JSON.stringify(res));
+            UUID = res.data.uuid
             console.log(UUID, "data")
             return UUID
         }
@@ -86,5 +90,14 @@ export async function GetUserUUID() {
     }
 }
 
+async function checkAdmin(uuid) {
+    try {
+        if (uuid === GetUserUUID) {
 
+        }
 
+    }
+    catch (err) {
+        console.error(err);
+    }
+}

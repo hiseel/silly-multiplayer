@@ -20,7 +20,7 @@ export function openSocket() {
     //         : event.data;
     //     console.log("Message from server ", JSON.parse(text));
     // });
-    //
+
     // socket.addEventListener('close', () => {
     //     console.log('socket closed');
     //     // logOut()

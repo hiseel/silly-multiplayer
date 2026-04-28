@@ -76,7 +76,7 @@ const router = createRouter({
 router.beforeEach(async function (to, from) {
     const FUNsecret = getSecret();
     console.log('beforeEach', to.path + ' - Auth: ' + FUNsecret);
-    if ((to.path === '/login' || to.path === 'login') || (to.path === '/welcome' ||  to.path === 'welcome') || (to.path === '/register' || to.path === 'register')) {
+    if ((to.path === '/login' || to.path === 'login') || (to.path === '/welcome' ||  to.path === 'welcome') || (to.path === '/registration' || to.path === 'registration')) {
         if (FUNsecret) {
             return '/';
         }
