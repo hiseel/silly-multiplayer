@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8181', // Your server URL
+        target: 'http://localhost:8181',
         changeOrigin: true,
       }
     }
@@ -24,6 +24,9 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('development'),
   },
 
   })

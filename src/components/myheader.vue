@@ -2,7 +2,7 @@
 import drawerMenu from "@/components/drawerMenu.vue";
 import {RouterLink} from "vue-router";
 import {computed, onBeforeMount, onMounted, ref} from "vue";
-import {getSecret, GetUserUUID} from "@/composables/login.js";
+import {checkAdmin, getSecret, GetUserUUID} from "@/composables/login.js";
 import {status} from "@/composables/socket.js"
 
 
@@ -16,9 +16,11 @@ const statusColor = computed(() => ({
   'text-red-500':   status.value === 'disconnected'
 }))
 
+let isAdmin = false;
 
 onMounted(async() => {
   UUID.value = await GetUserUUID(secret);
+  isAdmin = await checkAdmin();
 })
 </script>
 
@@ -36,6 +38,7 @@ onMounted(async() => {
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/settings">Settings</RouterLink>
         <RouterLink :to="{name:'main'}">Rooms</RouterLink>
+      <RouterLink v-if="isAdmin" to="/admin">Admin</RouterLink>
     </nav>
   </div>
 </template>

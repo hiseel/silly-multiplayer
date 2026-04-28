@@ -9,7 +9,8 @@ import loginView from "@/views/loginView.vue";
 import registerView from "@/views/registerView.vue";
 import mainView from "@/views/mainView.vue";
 
-import {getSecret} from "@/composables/login.js";
+import {checkAdmin, getSecret} from "@/composables/login.js";
+import AdminView from "@/views/AdminView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +68,11 @@ const router = createRouter({
             component: HomeView,
             props: true,
             meta: { hideHeader: true }
+        },
+        {
+            path: '/admin',
+            component: AdminView,
+            meta: { requiresAdmin: true }
         }
     ]
 });
@@ -74,15 +80,20 @@ const router = createRouter({
 
 
 router.beforeEach(async function (to, from) {
-    const FUNsecret = getSecret();
-    console.log('beforeEach', to.path + ' - Auth: ' + FUNsecret);
+    const secret = getSecret();
+    const isadmin = await checkAdmin();
+    console.log('beforeEach', to.path + ' - Auth: ' + secret + ' - ' + isadmin);
     if ((to.path === '/login' || to.path === 'login') || (to.path === '/welcome' ||  to.path === 'welcome') || (to.path === '/registration' || to.path === 'registration')) {
-        if (FUNsecret) {
-            return '/';
+        if (secret) {
+            console.log('ALL GOOD');
+            return;
         }
         return;
     }
-    if (!FUNsecret) {
+    if (to.meta.requiresAdmin && !isadmin) {
+        return '/';
+    }
+    if (!secret) {
         return '/welcome';
     }
 })

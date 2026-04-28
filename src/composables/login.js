@@ -90,14 +90,22 @@ export async function GetUserUUID() {
     }
 }
 
-async function checkAdmin(uuid) {
+let isAdmin = false;
+
+export async function checkAdmin() {
     try {
-        if (uuid === GetUserUUID) {
-
-        }
-
+        console.log("admin check triggered");
+        const UserData = await GetUserUUID();
+            if (UserData.role === "ADMIN") {
+                console.log("admin user confirmed");
+                return isAdmin = true;
+            }
+            else {
+                return isAdmin;
+            }
     }
     catch (err) {
         console.error(err);
     }
 }
+//TODO can't open more than one connection
