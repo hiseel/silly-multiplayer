@@ -22,7 +22,6 @@ onMounted(() => getData())
 <template>
   <div class="flex flex-col md:flex-row w-full  min-h-100  gap-2">
 
-    <!-- Left Column (Fixed Width) -->
     <div class="w-full md:w-48 flex-none">
       <div class="card bg-base-300 h-full ">
         <div class="card-body">
@@ -36,7 +35,6 @@ onMounted(() => getData())
       </div>
     </div>
 
-    <!-- Right Column (Fills remaining space) -->
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">

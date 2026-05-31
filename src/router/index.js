@@ -11,6 +11,7 @@ import mainView from "@/views/mainView.vue";
 
 import {checkAdmin, getSecret} from "@/composables/login.js";
 import AdminView from "@/views/AdminView.vue";
+import adminView from "@/views/AdminView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,9 +72,18 @@ const router = createRouter({
         },
         {
             path: '/admin',
+            name: 'admin',
             component: AdminView,
-            meta: { requiresAdmin: true }
-        }
+            meta: { requiresAdmin: true },
+            children: [
+
+            ]
+        },
+        {
+            path: '/users/:user_id',
+            name: 'users',
+            component: AccountView,
+        },
     ]
 });
 

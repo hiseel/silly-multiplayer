@@ -16,11 +16,11 @@ const statusColor = computed(() => ({
   'text-red-500':   status.value === 'disconnected'
 }))
 
-let isAdmin = false;
+const isAdmin = ref(false)
 
 onMounted(async() => {
   UUID.value = await GetUserUUID(secret);
-  isAdmin = await checkAdmin();
+  isAdmin.value = await checkAdmin();
 })
 </script>
 
