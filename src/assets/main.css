@@ -1,0 +1,76 @@
+@import './base.css';
+@import "tailwindcss";
+@tailwind utilities;
+@plugin "daisyui" {
+  themes: luxury --default, light, dark;
+}
+
+@plugin "daisyui/theme" {
+  name: luxury;
+  --color-base-200: oklch(0.147 0.011 159.754);
+}
+
+@plugin "daisyui/theme" {
+  name: my-forest;
+  /* Color Scheme: Forest */
+  --color-base-100: oklch(18% 0.02 150);   /* Deep dark mossy background */
+  --color-base-200: oklch(15% 0.02 150);   /* Slightly darker for cards */
+  --color-base-300: oklch(12% 0.02 150);   /* Darkest shade */
+  --color-base-content: oklch(92% 0.01 150); /* Off-white text */
+
+  --color-primary: oklch(55% 0.15 145);    /* Vibrant Forest Green */
+  --color-primary-content: oklch(98% 0.01 145);
+
+  --color-secondary: oklch(45% 0.12 60);   /* Earthy Bark/Brown */
+  --color-secondary-content: oklch(95% 0.02 60);
+
+  --color-accent: oklch(75% 0.18 130);     /* Bright Spring Green highlights */
+  --color-accent-content: oklch(20% 0.05 130);
+
+  --color-neutral: oklch(25% 0.02 150);    /* Neutral dark element background */
+  --color-neutral-content: oklch(90% 0.01 150);
+
+  --color-info: oklch(70% 0.15 240);       /* Blue-ish info */
+  --color-success: oklch(65% 0.18 145);    /* Green success matches primary */
+  --color-warning: oklch(80% 0.15 85);     /* Golden yellow */
+  --color-error: oklch(60% 0.20 25);       /* Red error */
+
+  /* Rounded corners for a softer, organic feel */
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+}
+
+#app {
+  /*max-height: 100vh;*/
+  margin: 1%;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsl(87, 100%, 45%);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 10%, 0.2);
+  }
+}
+
+@media (max-width: 100fr) {
+  body {
+    display: flex;
+    place-items: self-start;
+  }
+
+  #app {
+    display: flow;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
