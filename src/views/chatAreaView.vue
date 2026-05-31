@@ -6,6 +6,7 @@ import {RouterLink, useRoute} from "vue-router";
 import { GET, POST } from "@/composables/api.js"
 import {getSecret, GetUserUUID} from "@/composables/login.js";
 import {openSocket, setUserListener, isReady} from "@/composables/socket.js";
+import AiChatBox from "@/components/AiChatBox.vue";
 
 const route = useRoute();
 // const ActiveRoomID = ref([])
@@ -39,9 +40,9 @@ const getActiveUsers = async () => {
 onMounted(() => getActiveUsers())
 
 const sentmessages = ref({})
-const getMessageData = async (roomId) => {
+const getMessageData = async (roomId, targetChat) => {
   try {
-    const res = await GET(`/api/secure/userchats/${roomId}`)
+    const res = await GET(`/api/secure/${targetChat}/${roomId}`)
     sentmessages.value[roomId] = res.data
   }
   catch (err) {
@@ -79,7 +80,6 @@ function displayMsg() {
 //TODO optimize toSorted insert
 
 const currentInput = ref(null)
-
 const sendMessage = async (event) => {
   if (!event || !event.shiftKey) {
     try {
@@ -95,6 +95,19 @@ const sendMessage = async (event) => {
   }
 }
 
+const currentAiChatInput = ref(null)
+const sendAiChatMessage = async (event) => {
+  if (!event || !event.shiftKey) {
+    try {
+      const postAiChatResponse = await POST(`/api/secure/aichats/` + route.params.roomId, {user_id: UUID.value, message: currentAiChatInput.value})
+      console.log(postAiChatResponse.data)
+    }
+    catch (err) { console.error(err) }
+
+    event?.preventDefault()
+    currentAiChatInput.value = null
+  }
+}
 
 const UUID = ref(null);
 const secret = getSecret();
@@ -130,8 +143,8 @@ onMounted(async() => {
     <div class="grow">
       <div class="card  h-full w-full">
         <div class="card-body">
-          <h2>Chat Chat! {{rooms?.name}} </h2>
-            <ChatBox v-if="filter"
+          <h2>ai Chat Chat! </h2>
+            <AiChatBox v-if="filter"
                      :roomID="route.params.roomId"
                      :message="filter"
             />
@@ -139,14 +152,40 @@ onMounted(async() => {
             <div class="flex flex-row w-full py-10">
                   <textarea class="textarea w-full "
                             placeholder="Type here"
-                            v-model="currentInput"
-                            @keydown.enter="sendMessage"
+                            v-model="currentAiChatInput"
+                            @keydown.enter="sendAiChatMessage"
                   />
                   <button
                       class="btn"
                       :disabled="!isReady()"
-                      @click="sendMessage()"
+                      @click="sendAiChatMessage()"
                   >Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grow">
+      <div class="card  h-full w-full">
+        <div class="card-body">
+          <h2>userchat</h2>
+          <ChatBox v-if="filter"
+                   :roomID="route.params.roomId"
+                   :message="filter"
+          />
+          <div>
+            <div class="flex flex-row w-full py-10">
+                  <textarea class="textarea w-full "
+                            placeholder="Type here"
+                            v-model="currentInput"
+                            @keydown.enter="sendMessage"
+                  />
+              <button
+                  class="btn"
+                  :disabled="!isReady()"
+                  @click="sendMessage()"
+              >Send</button>
             </div>
           </div>
         </div>

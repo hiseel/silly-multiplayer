@@ -1,7 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import ChatBox from "@/components/ChatBox.vue";
-import Chat from "@/components/Chat.vue";
 import {RouterLink} from "vue-router";
 import {GET} from "@/composables/api.js"
 
